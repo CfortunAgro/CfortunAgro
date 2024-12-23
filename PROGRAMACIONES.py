@@ -163,20 +163,34 @@ with tab7:
     if len(semanas_disponibles) < 2:
         st.warning("Se necesitan al menos dos semanas registradas para comparar.")
     else:
-        semana1 = st.selectbox("Selecciona la primera semana:", semanas_disponibles)
-        semana2 = st.selectbox("Selecciona la segunda semana:", [s for s in semanas_disponibles if s != semana1])
+        # Selección de semanas y tipo de datos
+        semana1 = st.selectbox("Selecciona la primera semana:", semanas_disponibles, key="semana1_comparar")
+        semana2 = st.selectbox("Selecciona la segunda semana:", [s for s in semanas_disponibles if s != semana1], key="semana2_comparar")
+        tipo = st.radio("Selecciona el tipo de datos a comparar:", ["Clima R04", "Clima R02", "Clima C02", "Mist R04", "Mist R02", "Mist C02"], key="tipo_comparar")
         
-        tipo = st.radio("Selecciona el tipo de datos a comparar:", ["Clima R04", "Clima R02", "Clima C02", "Mist R04", "Mist R02", "Mist C02"])
-        
+        # Cargar datos para ambas semanas
         df1 = cargar_datos(semana1, tipo)
         df2 = cargar_datos(semana2, tipo)
         
         if df1 is not None and df2 is not None:
-            st.write(f"### Datos de la semana {semana1}")
-            st.dataframe(df1)
-            
-            st.write(f"### Datos de la semana {semana2}")
-            st.dataframe(df2)
+            if df1.shape == df2.shape:
+                # Crear una función para resaltar diferencias
+                def resaltar_diferencias(data):
+                    styles = pd.DataFrame("", index=data.index, columns=data.columns)
+                    for row in data.index:
+                        for col in data.columns:
+                            if df1.loc[row, col] != df2.loc[row, col]:
+                                styles.loc[row, col] = "background-color: red; color: white;"
+                    return styles
+                
+                # Mostrar tablas con diferencias resaltadas
+                st.write(f"### Datos de la semana {semana1}")
+                st.dataframe(df1.style.set_table_styles([]).apply(resaltar_diferencias, axis=None))
+
+                st.write(f"### Datos de la semana {semana2}")
+                st.dataframe(df2.style.set_table_styles([]).apply(resaltar_diferencias, axis=None))
+            else:
+                st.warning("Los DataFrames de las semanas seleccionadas tienen diferentes formas, no se pueden comparar.")
         else:
             st.warning("No se encontraron datos para las semanas seleccionadas.")
 
