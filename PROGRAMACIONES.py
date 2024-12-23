@@ -90,7 +90,7 @@ mist_data = {
 semana = st.text_input("Introduce la semana y el año (formato sXX-20XX):", "s01-2024")
 
 # Crear pestañas para Clima y Mist
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Clima", "Clima R02", "Clima C02", "Mist R04", "Mist R02", "Mist C02", "Comparar Semanas"])
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Clima R04", "Clima R02", "Clima C02", "Mist R04", "Mist R02", "Mist C02", "Comparar Semanas"])
 
 def manejar_pestaña(semana, tipo, datos_iniciales):
     # Cargar datos guardados si existen
