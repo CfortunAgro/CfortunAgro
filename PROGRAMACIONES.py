@@ -62,6 +62,31 @@ def cargar_semanas_disponibles():
     conn.close()
     return semanas
 
+# Función para borrar todos los datos de la base de datos
+def borrar_todos_los_datos():
+    conn = init_db()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM registros")  # Elimina todos los registros de la tabla
+    conn.commit()
+    conn.close()
+
+# Interfaz de la aplicación
+st.title("Aplicación para Actualizar Datos de Clima y Mist")
+
+# Botón para eliminar todos los datos
+if st.button("Borrar todos los datos y reiniciar"):
+    borrar_todos_los_datos()
+    st.success("Todos los datos han sido eliminados. Ahora puedes empezar desde cero.")
+
+# Casilla para introducir la semana y el año
+semana = st.text_input("Introduce la semana y el año (formato sXX-20XX):", "s01-2024")
+
+# Crear pestañas para Clima y Mist
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["Clima", "Clima R02", "Clima C02", "Mist R04", "Mist R02", "Mist C02", "Comparar Semanas"])
+
+# (Resto del código para manejar pestañas y demás funcionalidades)
+
+
 # Título de la aplicación
 st.title("Aplicación para Actualizar Datos de Clima y Mist")
 
