@@ -174,7 +174,7 @@ with tab7:
         
         if df1 is not None and df2 is not None:
             if df1.shape == df2.shape:
-                # Crear una función para resaltar diferencias
+                # Crear una función para resaltar diferencias solo en la segunda semana
                 def resaltar_diferencias(data):
                     styles = pd.DataFrame("", index=data.index, columns=data.columns)
                     for row in data.index:
@@ -183,14 +183,13 @@ with tab7:
                                 styles.loc[row, col] = "background-color: red; color: white;"
                     return styles
                 
-                # Mostrar tablas con diferencias resaltadas
+                # Mostrar tablas con diferencias resaltadas en la segunda semana
                 st.write(f"### Datos de la semana {semana1}")
-                st.dataframe(df1.style.set_table_styles([]).apply(resaltar_diferencias, axis=None))
+                st.dataframe(df1)
 
-                st.write(f"### Datos de la semana {semana2}")
+                st.write(f"### Datos de la semana {semana2} (celdas diferentes resaltadas en rojo)")
                 st.dataframe(df2.style.set_table_styles([]).apply(resaltar_diferencias, axis=None))
             else:
                 st.warning("Los DataFrames de las semanas seleccionadas tienen diferentes formas, no se pueden comparar.")
         else:
             st.warning("No se encontraron datos para las semanas seleccionadas.")
-
