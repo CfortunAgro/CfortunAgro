@@ -113,18 +113,24 @@ def manejar_pestaña(semana, tipo, datos_iniciales):
     else:
         datos_df = pd.DataFrame(datos_iniciales)
     
-    # Interfaz de edición
-    datos_df = st.data_editor(datos_df, use_container_width=True, key=f"{tipo}_editor")
+    # Interfaz de edición con una clave única
+    datos_df = st.data_editor(datos_df, use_container_width=True, key=f"{tipo}_editor_{semana}")
     
-    if st.button(f"Guardar {tipo}", key=f"{tipo}_guardar"):
+    # Botón para guardar datos con clave única
+    if st.button(f"Guardar {tipo}", key=f"guardar_{tipo}_{semana}"):
         guardar_datos(semana, tipo, datos_df)
         st.success(f"Datos de {tipo} guardados para la semana {semana}")
     
-    # Botón para descargar los datos
+    # Botón para descargar los datos con clave única
     datos_output = BytesIO()
     datos_df.to_excel(datos_output, index=False, engine="openpyxl")
     datos_output.seek(0)
-    st.download_button(f"Descargar {tipo} Actualizado", datos_output, f"{tipo.lower()}_actualizado.xlsx")
+    st.download_button(
+        f"Descargar {tipo} Actualizado",
+        datos_output,
+        f"{tipo.lower()}_actualizado.xlsx",
+        key=f"download_{tipo}_{semana}"
+    )
 
 with tab1:
     st.subheader("Datos del Grupo Clima")
