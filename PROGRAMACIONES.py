@@ -133,8 +133,8 @@ def manejar_pestaña(semana, tipo, datos_iniciales):
     )
 
 with tab1:
-    st.subheader("Datos del Grupo Clima")
-    manejar_pestaña(semana, "Clima", clima_data)
+    st.subheader("Datos del Grupo Clima R04")
+    manejar_pestaña(semana, "Clima R04", clima_data)
 
 with tab2:
     st.subheader("Datos del Grupo Clima R02")
